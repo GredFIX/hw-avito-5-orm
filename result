@@ -1,0 +1,16 @@
+============================= test session starts ==============================
+platform linux -- Python 3.8.5, pytest-6.2.2, py-1.10.0, pluggy-0.13.1 -- /usr/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/gredfix/orm_lab
+plugins: Faker-6.6.0, cov-2.12.0
+collecting ... collected 7 items
+
+test_orm.py::test_create_tables_ok PASSED                                [ 14%]
+test_orm.py::test_save_entity_ok PASSED                                  [ 28%]
+test_orm.py::test_select_entities_ok PASSED                              [ 42%]
+test_orm.py::test_char_field_ok PASSED                                   [ 57%]
+test_orm.py::test_char_field_invalid_length PASSED                       [ 71%]
+test_orm.py::test_int_field_ok PASSED                                    [ 85%]
+test_orm.py::test_int_field_invalid_value PASSED                         [100%]
+
+============================== 7 passed in 0.08s ===============================
