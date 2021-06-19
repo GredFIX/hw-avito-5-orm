@@ -17,7 +17,8 @@ class SqliteDatabase:
                 [field["_meta"].to_sql() for _, field in model._data.items()]
             )
             self.conn.execute(
-                "create table if not exists " f"{model._name} ({table_columns});"
+                "create table if not exists "
+                f"{model._name} ({table_columns});"
             )
 
 

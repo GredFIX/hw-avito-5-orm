@@ -4,22 +4,22 @@ from unittest.mock import patch, MagicMock
 from .simple_orm import Model, SqliteDatabase, CharField, IntegerField
 
 
-@patch('sqlite3.connect')
+@patch("sqlite3.connect")
 def test_create_tables_ok(mock_connect):
     cm = MagicMock()
     mock_connect.return_value = cm
 
     int_field = MagicMock()
-    int_field.to_sql.return_value = 'test_field_int INTEGER'
+    int_field.to_sql.return_value = "test_field_int INTEGER"
 
     char_field = MagicMock()
-    char_field.to_sql.return_value = 'test_field_char TEXT'
+    char_field.to_sql.return_value = "test_field_char TEXT"
 
     class TestModel:
-        _name = 'test_model'
+        _name = "test_model"
         _data = {
-            'test_field_int': {'_meta': int_field},
-            'test_field_char': {'_meta': char_field},
+            "test_field_int": {"_meta": int_field},
+            "test_field_char": {"_meta": char_field},
         }
 
     db = SqliteDatabase(":memory:")
@@ -29,39 +29,39 @@ def test_create_tables_ok(mock_connect):
     db.close()
 
     cm.execute.assert_called_once_with(
-        'create table if not exists test_model ('
-        'test_field_int INTEGER, '
-        'test_field_char TEXT);')
+        "create table if not exists test_model ("
+        "test_field_int INTEGER, "
+        "test_field_char TEXT);"
+    )
     cm.close.assert_called_once()
 
-@patch('sqlite3.connect')
+
+@patch("sqlite3.connect")
 def test_save_entity_ok(mock_connect):
     cm = MagicMock()
     mock_connect.return_value = cm
 
     db = SqliteDatabase(":memory:")
-    
+
     class BaseModel(Model):
         class Meta:
             database = db
-
 
     class Advert(BaseModel):
         title = CharField(max_length=180)
         price = IntegerField(min_value=0)
 
     db.connect()
-    Advert.create(title='iPhone X', price=100)
+    Advert.create(title="iPhone X", price=100)
     db.close()
 
- 
     cm.execute.assert_called_once_with(
         "insert into Advert values ('iPhone X', 100)"
     )
     cm.close.assert_called_once()
 
 
-@patch('sqlite3.connect')
+@patch("sqlite3.connect")
 def test_select_entities_ok(mock_connect):
     cm = MagicMock()
     mock_connect.return_value = cm
@@ -72,19 +72,18 @@ def test_select_entities_ok(mock_connect):
         class Meta:
             database = db
 
-
     class Advert(BaseModel):
         title = CharField(max_length=180)
         price = IntegerField(min_value=0)
 
     db.connect()
-    adverts = Advert.select()
+    Advert.select()
     db.close()
 
     cm.execute.assert_called_once()
-    cm.execute.assert_called_with(
-        'select * from Advert;')
+    cm.execute.assert_called_with("select * from Advert;")
     cm.close.assert_called_once()
+
 
 def test_char_field_ok():
     title_field = CharField(max_length=5)
