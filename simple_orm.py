@@ -104,7 +104,6 @@ class Model(metaclass=ModelMeta):
     @classmethod
     def create(cls, **query):
         ins = cls(**query)
-        print(ins._data)
         values = ", ".join(
             [
                 f"'{field['_value']}'"
